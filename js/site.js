@@ -8,20 +8,10 @@ const getValues = () => {
 }
 
 const checkForPalindrome = (inputString) => {
-  // let regex = /[^a-z0-9]/gi; replace anything that isnt a-z 0-9, ^ => means not
-  //this removes extra characters
 
   var re = /[^A-Za-z0-9]/g;
   let input = inputString.toLowerCase().replace(re, '');
   var length = input.length;
-
-  // let palindrome = {
-  //   isPalindrome: (revString == userString);
-  //   reversedString: revString;
-  // };
-  // palindrome.isPalindrome = true;
-  // palindrome.reversedString = revString;
-  //let isPalindrome = (revString == userString);
 
   for (var i = 0; i < length / 2; i++) {
     if (input[i] !== input[length - 1 - i]) {
@@ -30,7 +20,6 @@ const checkForPalindrome = (inputString) => {
   }
   return true;
 }
-
 
 
 const displayResults = (revString, userString) => {
