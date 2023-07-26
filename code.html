@@ -72,26 +72,55 @@
 
             const getValues = () => {
               let userString = document.getElementById('user-string').value;
-              let revString = reverseString(userString);
-              displayString(revString);
+              let obj = checkForPalindrome(userString);
+            
+                displayResults(obj);
             }
             
-            const reverseString = (input) => {
+            const checkForPalindrome = (inputString) => {
+            
+              var re = /[^A-Za-z0-9]/g;
+              let input = inputString.toLowerCase().replace(re, '');
+              var length = input.length;
+            
               let revString = '';
               for (let i = input.length - 1; i >= 0; i--) {
                 let letter = input[i];
                 revString += letter;
               }
-              return revString;
             
+              let palindromeObj = {
+                isPalindrome: (revString == inputString),
+                reversedString: revString
+              }
+            
+              return palindromeObj;
             }
             
-            const displayString = (output) => {
-              document.getElementById('results').textContent = output;
+            const displayResults = (obj) => {
+              let inputBox = document.getElementById('user-string');
               let alertBox = document.getElementById('alert');
-              alertBox.classList.remove('invisible');
+              if (obj.isPalindrome) {
+                document.getElementById('palindrome').textContent = "You entered a Palindrome!";
+                document.getElementById('results').textContent = obj.reversedString;
+                alertBox.classList.remove('invisible', 'alert-danger');
+                alertBox.classList.add('alert-success');
+                inputBox.classList.remove('border', 'border-2', 'border-danger-subtle')
+                inputBox.classList.add('border', 'border-2', 'border-success-subtle')
+            
+              }
+              else if (!obj.isPalindrome) {
+                document.getElementById('palindrome').textContent = "You did not enter a Palindrome!";
+                document.getElementById('results').textContent = obj.reversedString;
+                alertBox.classList.remove('invisible', 'alert-success');
+                alertBox.classList.add('alert-danger');
+                inputBox.classList.remove('border', 'border-2', 'border-success-subtle')
+                inputBox.classList.add('border', 'border-2', 'border-danger-subtle')
+            
+              }
             
             }
+            
           </code>
         </pre>
 
@@ -101,21 +130,27 @@
         <p>The code is structured in three functions</p>
         <h5>getValues</h5>
         <p><code> getValues()</code> is a function that grabs the text from the input element
-          and passes this text as a arguement to the function <code>reverseString()</code></p>
+          and passes the text as a arguement to the function <code>checkForPalindrome()</code></p>
 
 
-        <h5>reverseString()</h5>
-        <p> <code>reverseString() </code> is a function that recieves the text from the method <code>getValues()</code>
-          and reverses
-          the string with a for loop. After the string is revresed, the string is then returned to the
-          <code>displayString()</code>
-          function</p>
+        <h5>checkForPalindrome()</h5>
+        <p> <code>checkForPalindrome() </code> is a function that recieves the text from the method
+          <code>getValues()</code>.
+          After the text is recieved, a regex is used to filter this text for anything characters that
+          are not a-z or 0-9 and replaces that text with nothing. The text is also transformed to lower case
+          before being used in a for loop. After the string is reversed with the for loop, a object called
+          <code>palindromeObj</code> is
+          created with two properties: <code>isPalindrome</code> which compares the user
+          input with the reversed string to determine whether this comparision is true or false and
+          <code>reversedString</code> is the second
+          property which holds the user input that has been reversed. This object is returned and passed
+          to the <code>displayResults()</code> function.
+        </p>
 
-        <h5>displayString()</h5>
-        <p> <code>displayString() </code> is a function that uses the text returned
-          from <code>reverseString()</code> and displays the text in a span tag. This function also
-          removes the invisble class on the div with a id of alert in order for the span tag inside of the alert div to
-          show the reversed string.</p>
+        <h5>displayResults()</h5>
+        <p> <code>displayResults() </code> is a function that uses the object returned
+          from <code>checkForPalindrome()</code> and displays whether or not
+          the user input is a palindrom or not, in a span tag. </p>
 
       </div>
 

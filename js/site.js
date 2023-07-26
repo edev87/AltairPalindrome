@@ -1,9 +1,8 @@
 const getValues = () => {
   let userString = document.getElementById('user-string').value;
+  let obj = checkForPalindrome(userString);
 
-  let revString = checkForPalindrome(userString);
-
-  displayResults(revString, userString);
+    displayResults(obj);
 
 }
 
@@ -13,30 +12,35 @@ const checkForPalindrome = (inputString) => {
   let input = inputString.toLowerCase().replace(re, '');
   var length = input.length;
 
-  for (var i = 0; i < length / 2; i++) {
-    if (input[i] !== input[length - 1 - i]) {
-      return false;
-    }
+  let revString = '';
+  for (let i = input.length - 1; i >= 0; i--) {
+    let letter = input[i];
+    revString += letter;
   }
-  return true;
+
+  let palindromeObj = {
+    isPalindrome: (revString == inputString),
+    reversedString: revString
+  }
+
+  return palindromeObj;
 }
 
-
-const displayResults = (revString, userString) => {
+const displayResults = (obj) => {
   let inputBox = document.getElementById('user-string');
   let alertBox = document.getElementById('alert');
-  if (revString === true) {
+  if (obj.isPalindrome) {
     document.getElementById('palindrome').textContent = "You entered a Palindrome!";
-    document.getElementById('results').textContent = userString;
+    document.getElementById('results').textContent = obj.reversedString;
     alertBox.classList.remove('invisible', 'alert-danger');
     alertBox.classList.add('alert-success');
     inputBox.classList.remove('border', 'border-2', 'border-danger-subtle')
     inputBox.classList.add('border', 'border-2', 'border-success-subtle')
 
   }
-  else if (revString === false) {
+  else if (!obj.isPalindrome) {
     document.getElementById('palindrome').textContent = "You did not enter a Palindrome!";
-    document.getElementById('results').textContent = userString;
+    document.getElementById('results').textContent = obj.reversedString;
     alertBox.classList.remove('invisible', 'alert-success');
     alertBox.classList.add('alert-danger');
     inputBox.classList.remove('border', 'border-2', 'border-success-subtle')
